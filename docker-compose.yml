@@ -1,0 +1,41 @@
+version: "3.9"
+
+name: log_viewer
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: "log_viewer"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "pass"
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    command: [ "plackup", "-p", "3000", "-M","Devel::Camelcadedb", "-R", "lib" , "/opt/app/bin/app.psgi"]
+    volumes:
+      - .:/opt/app
+    ports:
+      - "9000:3000"
+    working_dir: /opt/app
+    environment:
+      PERL5LIB: /opt/app/lib
+      PERL5_DEBUG_AUTOSTART: ${DEBUG}
+      PERL5_DEBUG_ROLE: client
+      PERL5_DEBUG_HOST: host.docker.internal
+      PERL5_DEBUG_PORT: 40000
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/templates:/etc/nginx/templates
+    ports:
+      - "8080:8080"
+    environment:
+      - NGINX_POXY_PASS=http://app:3000
+    depends_on:
+      - app
+

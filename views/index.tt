@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Поиск записей в логе по адресу получателя</h1>
+
+<form action="/addresses" method="get">
+  <label for="address">Адрес получателя:</label>
+  <input type="text" id="address" required name="address"><br><br>
+  <input type="submit" value="Искать">
+</form>
+
+[% IF rows.size > limit_rows %]
+    <p>Отображаемый результат ограничен [% rows.size - 1 %] записями.</p>
+[% END %]
+
+[% IF rows.size > 0 %]
+<table border=0 width="100%">
+    <tr>
+      <th>timestamp</th>
+      <th>строка лога</th>
+    </tr>
+
+    [% FOREACH row IN rows  %]
+    <tr>
+      <td>[% row.created %]</td>
+      <td>[% row.str %]</td>
+    </tr>
+    [% END %]
+</table>
+[% END %]
+
+</body>
+</html>
