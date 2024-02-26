@@ -1,4 +1,3 @@
-use utf8;
 package LogViewer::Schema;
 
 # Created by DBIx::Class::Schema::Loader
