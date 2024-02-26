@@ -16,7 +16,8 @@ services:
     command: >
       bash -c "psql postgresql://${DB_USER}:${DB_PASS}@db:5432/postgres -c 'drop database if exists ${DB_NAME} with(force)'
       && psql postgresql://${DB_USER}:${DB_PASS}@db:5432/postgres -c 'create database ${DB_NAME}'
-      && plackup -p 3000 -M Devel::Camelcadedb -R lib /opt/app/bin/app.psgi"
+      && plackup -p 3000 -M Devel::Camelcadedb /opt/app/bin/app.psgi"
+    restart: no
     volumes:
       - .:/opt/app
     ports:
