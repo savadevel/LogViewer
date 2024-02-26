@@ -4,16 +4,19 @@ name: log_viewer
 services:
   db:
     image: postgres
+    restart: always
     environment:
-      POSTGRES_DB: "log_viewer"
-      POSTGRES_USER: "user"
-      POSTGRES_PASSWORD: "pass"
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
     ports:
       - "5432:5432"
 
   app:
     build: .
-    command: [ "plackup", "-p", "3000", "-M","Devel::Camelcadedb", "-R", "lib" , "/opt/app/bin/app.psgi"]
+    command: >
+      bash -c "psql postgresql://${DB_USER}:${DB_PASS}@db:5432/postgres -c 'drop database if exists ${DB_NAME} with(force)'
+      && psql postgresql://${DB_USER}:${DB_PASS}@db:5432/postgres -c 'create database ${DB_NAME}'
+      && plackup -p 3000 -M Devel::Camelcadedb -R lib /opt/app/bin/app.psgi"
     volumes:
       - .:/opt/app
     ports:
