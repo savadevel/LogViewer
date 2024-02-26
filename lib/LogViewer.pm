@@ -4,19 +4,18 @@ package LogViewer;
 # направляемые им через web форму
 
 use Dancer2;
-
 use Try::Tiny;
+
 use LogViewer::DB;
 use LogViewer::Utils;
 use LogViewer::MailLog;
-
-use constant LIMIT_ROWS => 100;
 
 our $VERSION = '0.1';
 
 prefix undef;
 set content_type => 'text/html';
 
+# инициализация приложения
 {
     init_app();
 }
@@ -40,13 +39,13 @@ get '/addresses' => sub {
         {},
         {
             bind => [ $address, $address ],
-            rows => LIMIT_ROWS +1,
+            rows => setting('limit_rows') +1,
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator'
         })
         ->all() ];
 
     template('index.tt', {
-        limit_rows => LIMIT_ROWS,
+        limit_rows => setting('limit_rows'),
         rows       => $rows
     });
 };

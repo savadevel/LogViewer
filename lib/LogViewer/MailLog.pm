@@ -12,12 +12,13 @@ use warnings FATAL => 'all';
 
 use base 'Class::Singleton';
 
+# подключаем Dancer2 для использования параметров из config.yml
+use Dancer2;
 use DateTime;
 use Try::Tiny;
 
 use LogViewer::Utils;
 
-use constant FILE_LOG => './logs/out';
 use constant FLAGS =>
     {
         '<='          => # прибытие сообщения (в этом случае за флагом следует адрес отправителя)
@@ -34,6 +35,8 @@ use constant FLAGS =>
             \&_on_information,
     };
 
+our $VERSION = '0.1';
+
 sub _new_instance {
     my $class = shift;
     my $self = bless { @_ }, $class;
@@ -47,7 +50,7 @@ sub _load_log_file_to_db {
     my $self = shift;
     my $fh = undef;
     try {
-        open($fh, '<', FILE_LOG) or die FILE_LOG . ' ' . $!;
+        open($fh, '<', setting('file_log')) or die setting('file_log') . ' ' . $!;
         while (my $line = <$fh>) {
             chomp($line);
 

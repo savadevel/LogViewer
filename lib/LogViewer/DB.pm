@@ -8,17 +8,19 @@ use warnings FATAL => 'all';
 
 use base 'Class::Singleton';
 
+# подключаем Dancer2 для использования параметров из config.yml
+use Dancer2;
+
 use LogViewer::Schema;
 
-use constant DSN_DB => "dbi:Pg:dbname=log_viewer;host=db;port=5432";
-use constant USER_DB => "user";
-use constant PASS_DB => "pass";
+our $VERSION = '0.1';
 
 sub _new_instance {
     my $class = shift;
     my $self = bless {}, $class;
 
-    $self->{dbh} = LogViewer::Schema->connect(DSN_DB, USER_DB, PASS_DB, { AutoCommit => 1, RaiseError => 1, PrintError => 1 })
+    $self->{dbh} = LogViewer::Schema->connect(setting('db_dsn'), setting('db_user'), setting('db_pass'),
+        { AutoCommit => 1, RaiseError => 1, PrintError => 1 })
         || die "Cannot connect to database: $DBI::errstr";
 
     return $self;

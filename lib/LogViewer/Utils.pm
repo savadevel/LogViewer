@@ -18,6 +18,7 @@ use LogViewer::MailLog;
 
 use constant DEFAULT_STATUS => 1;
 
+our $VERSION = '0.1';
 our @EXPORT = qw/extract_address init_app is_valid_address/;our @EXPORT_OK = qw/extract_address init_app is_valid_address/;
 
 # инициализация приложения (создание структуры таблиц, загрузка почтового лога)

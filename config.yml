@@ -16,6 +16,19 @@ appname: "LogViewer"
 # about unicode within your app when this setting is set (recommended).
 charset: "UTF-8"
 
+# === Application configuration ===
+
+# configuration of connection to DB
+db_dsn: "dbi:Pg:dbname=log_viewer;host=db;port=5432"
+db_user: "user"
+db_pass: "pass"
+
+# configuration of file with mail's log
+file_log: "./logs/out"
+
+# limit of rows for show by query
+limit_rows: 100
+
 # === Engines ===
 #
 # NOTE: All the engine configurations need to be under a single "engines:"
