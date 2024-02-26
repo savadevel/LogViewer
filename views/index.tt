@@ -10,11 +10,11 @@
   <input type="submit" value="Искать">
 </form>
 
-[% IF rows.size > limit_rows %]
+[% IF rows && rows.size > limit_rows %]
     <p>Отображаемый результат ограничен [% rows.size - 1 %] записями.</p>
 [% END %]
 
-[% IF rows.size > 0 %]
+[% IF rows && rows.size > 0 %]
 <table border=0 width="100%">
     <tr>
       <th>timestamp</th>
