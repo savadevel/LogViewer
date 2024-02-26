@@ -81,3 +81,4 @@ CREATE INDEX log_address_idx ON log USING hash (address);
    * создание БД
    * создание таблиц в БД
    * последовательная загрузка записей из почтового лога в БД (с авто commit)
+   * запуск web формы
