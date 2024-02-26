@@ -8,6 +8,7 @@ requires "DBD::Pg" => "0";
 requires "Plack" => "0";
 requires "HTTP::Server::PSGI" => "0";
 requires "Devel::Camelcadedb" => "0";
+requires "SQL::Translator" => "0";
 
 recommends "YAML"                    => "0";
 recommends "URL::Encode::XS"         => "0";
