@@ -39,7 +39,8 @@ get '/addresses' => sub {
         {},
         {
             bind => [ $address, $address ],
-            rows => setting('limit_rows') +1,
+            # +1 чтобы определить необходимость вывода сообщения об ограничении количества сообщений
+            rows => setting('limit_rows') + 1,
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator'
         })
         ->all() ];
